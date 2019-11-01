@@ -1,0 +1,2595 @@
+\section{Introducción a los CAS}
+\label{IntroMaxima}
+
+
+Los sistemas algebraicos computacionales o sistemas de álgebra computacional  (CAS: \textit{Computer Algebra System})  son sistemas o calculadoras avanzadas, que permiten realizar operaciones de manera simbólica. Esto significa que el computador puede efectuar operaciones con ecuaciones y fórmulas simbólicamente, es decir,  $a+b=c$ se interpreta como la suma de variables y no como la suma de números previamente asignados. 
+
+Estos sistemas  permiten operar de manera exacta con sí­mbolos que representan objetos matemáticos tales como:
+\begin{itemize}
+\item Números (Enteros, racionales, reales, complejos...)
+\item Polinómios, Funciones Racionales, Sistemas de  Ecuaciones.
+\item Grupos, Anillos, Algebras . . .
+\end{itemize}
+A diferencia de los sistemas tradicionales de computación numérica:
+\begin{itemize}
+\item FORTRAN, Basic, C, C++, Java   $=>$ Precisión fija (Punto Flotante)
+\end{itemize}            
+Otra característica  principal radica en el hecho de que son interactivos (interpretados o ejecutados al momento de proveer una instrucción), es decir, trabajan de la forma:
+{\color{blue}\begin{verbatim}
+                          Input : solve(problema);
+\end{verbatim}}{\color{red}\begin{verbatim}                          
+                          Output : respuesta 
+\end{verbatim}}
+
+Los CAS se pueden clasificar en dos grandes grupos:\footnote{Una comparación de los diferentes CAS puede verse en: 
+\url{https://en.wikipedia.org/wiki/List_of_computer_algebra_systems}}
+\begin{itemize}
+\item Sistemas de Propósito Especial (Creados para hacer cálculos en un área específica): FORM, GAP, CAMAL, SHEEP, STENSOR, LiE, KANT.
+\item Sistemas de Propósito General (¡Especies de navajas suizas!):      
+Axiom, Derive, Reduce, Maple, MatLab, Mathematica, Maxima, MuPAD. Recientemente, lenguajes como Python comienzan a incorporar bibliotecas que permiten generar formas de cálculo simbólico\footnote{\url{http://docs.sympy.org/}} que ofrecen una perspectiva interesante para integrar ambientes algebráicos-numéricos-visuales.
+\end{itemize} 
+
+Los CAS modernos de propósito general son ambientes completamente integrados de computación para la investigación y la educación conformados por: 
+\begin{itemize}
+\item Interfaz gráfica (worksheet) o ambiente interactivo: 
+\item  Procesador de texto, de fórmulas y de gráficas.  
+\item  Con salidas en Latex, RTF, HTML, FORTRAN  y C; o hyperlinks a otros documentos.
+\item Manuales en lí­nea. 
+\item Enlaces a otros programas y bibliotecas
+\item Capacidades para cálculo numérico
+\item Capacidades para  visualización, con salidas gráficas en diferentes formatos: PostScript, GIF,JPG, . . .
+\item Pensado para usuarios no especializados en computación
+\end{itemize} 
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=5.01in]{VOLUMEN_1/06_Apendice_A/Figuras/Figura6_1.jpg}
+\caption{Ventana gráfica de vxMaxima}
+\label{fig12ventana}
+\end{center}
+\end{figure}
+
+La principal ventaja de estos programas radica en la enorme capacidad para realizar cálculos algebraicos largos y tediosos. Por ejemplo, se puede   demostrar que la función:
+\[
+f=\frac{\mbox{sen}\left(\frac{nz\sqrt{x^2+y^2+z^2}}{\sqrt{y^2+z^2}} \right)}{\sqrt{x^2+y^2+z^2}}
+\]
+es solución de la ecuación diferencial:
+ \[
+ \frac{\partial^4f}{\partial x^4}+ \frac{\partial^4f}{\partial y^2x^2}+\frac{\partial^4f}{\partial z^2x^2} + n^2\left[ \frac{\partial^2f}{\partial x^2} + \frac{\partial^2f}{\partial y^2} \right]=0
+ \]
+y la realización de éste cálculo le puede tomar a un PC estándar un tiempo de CPU relativamente corto:
+\begin{verbatim}
+                                 tiempo de cpu =  1,065 seg
+\end{verbatim}
+
+Un ejemplo de un CAS es {\bf Maxima} que básicamente  consta de una hoja de trabajo (worksheet) que es una interfaz tipo procesador de textos. Las hojas de trabajo constan de dos modos básicos de funcionamiento: el modo texto y el modo cálculo. {\bf Maxima} opera en la celda de cálculos de la manera siguiente:
+\begin{verbatim}
+                                Input (Instrucción de entrada) 
+                                Output (respuesta del programa)
+\end{verbatim}
+
+Existe la posibilidad de introducir textos de la misma manera que en un procesador de textos estándar y de generar gráficas en 2D y 3D a través de los respectivos comandos. 
+
+La interacción con la hoja de trabajo se hace a través de lo que denominamos la celda del Input, que aparece señalado por un aviso de espera o PROMPT  
+\begin{verbatim}
+[ -->
+\end{verbatim}
+
+El código fuente de {\bf Maxima}, código de software libre, puede ser compilado sobre diferentes sistemas operativos: Windows, Linux, MacOS X y Android, y puede obtenerse en: \url{http://sourceforge.net/projects/wxmaxima} o en \url{http://andrejv.github.io/wxmaxima}, con la respectiva documentación. 
+
+Utilizaremos la versión gráfica {\bf wxMaxima} para los fines pedagógicos del desarrollo de estas notas. También existe una versión que funciona sólo en modo texto para ser ejecutada en una consola o terminal.
+
+En la Figura \ref{fig12ventana} se puede apreciar el despliegue de una hoja de cálculo con algunos instrucciones sencillas, notemos que cada instrucción (en azul) termina con un punto y coma, de esta manera se le dice al programa la finalización del comando a ejecutar. Luego de escribir la instrucción y presionar la tecla Enter  $\Lsh$ el Output aparecerá a continuación en color negro.
+
+
+ \section{Maxima: Sintaxis básica}
+Es necesario familiarizarse con los comandos básicos del programa, para ello iremos desarrollando algunos cálculos sencillos a manera de conocer la filosofía de cómo funciona {\bf Maxima}, y durante el transcurso de este curso iremos haciendo un despliegue de las aplicaciones del programa para cálculos más específicos. 
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+3!+3^5;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o1) }
+249
+\end{math}
+\newline
+
+Veamos ahora la diferencia entre el igual $=$ y los dos puntos $:$ 
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a=b+c;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o2) }
+$c+b$
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+$a$
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a:b+c;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+$c+b$
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+$c+b$
+\end{math}
+\newline
+
+Al usar ``$=$" no asignamos a la variable lo que está del lado derecho mientras que con ``$:$" si le asignamos el objeto a la nueva variable.
+
+Los cálculos se pueden hacer tanto con números enteros como en Punto Flotante:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+15+5^(50);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+$88817841970012523233890533447265640$
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+15.0+5^(50);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+8.881784197001253 \times 10^{34} 
+\end{math}
+\newline
+
+Pero el énfasis radica en los cálculos exactos:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+cos(%pi/12)^2 + log(2/3+5)/7;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o8) }
+\cos ^2\left(\frac{\pi}{12}\right)+\frac{\log \left(\frac{17}{3}
+ \right)}{7}
+\end{math}
+\newline
+
+y si queremos el valor numérico podemos escribir 
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i9)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+float(%);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+1.180812852661949
+\end{math}
+\newline
+
+Aquí hemos hecho uso de varios símbolos nuevos. Las constantes matemáticas en {\bf Maxima} se escriben de la siguiente manera:
+\begin{itemize}
+\item La unidad imaginaria $i$: $\%i$
+\item El número $\pi$: $\%pi$.
+\item El símbolo $\infty$: inf.
+\item El número $e$: $\%e$. 
+\end{itemize}
+
+En cuanto a los logaritmos:
+\begin{itemize}
+\item $e^x=$ exp(x).
+\item log(x):  la función logaritmo en base $e$ 
+\item log(x)/log(b) el logaritmo de $x$ en base $b$.
+\end{itemize}
+
+Para las funciones trigonométricas es lo estándar:
+sin(x), asin(x), cos(x), acos(x), tan(x), atan(x), csc(x), sec(x), cot(x).
+
+También hemos utilizado $\%$ para introducir la última salida en la siguiente instrucción, veamos nuevamente como funciona, pero ahora pondremos al final del comando el símbolo $\$$ en lugar de $ ; $ para decirle al programa que ejecute la instrucción sin escribir la salida. 
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i10)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+3^12$
+\end{verbatim}}
+\end{minipage}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+%;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o11) }
+531441
+\end{math}
+\newline
+
+Veamos otro ejemplo:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i12)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+alpha;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o12) }
+\alpha
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i13)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+%+sqrt(beta);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o13) }
+\sqrt{\beta}+\alpha
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i14)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+%o12+2*gamma^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o14) }
+2\,\gamma^2+\alpha
+\end{math}
+\newline
+
+Es importante tener cuidado a la hora de poner los paréntesis en las expresiones:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i15)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+1+2*3^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o15) }
+19
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i16)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+(1+2)*3^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o16) }
+27
+\end{math}
+\newline
+
+El volumen de un cilindro $V=\pi (\mbox{radio})^2 \times \mbox{altura}$
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i17)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+radio:5$
+\end{verbatim}}
+\end{minipage}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i18)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+altura:50$
+\end{verbatim}}
+\end{minipage}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i19)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+area:%pi*radio^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o19) }
+25\,\pi
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i20)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+volumen:area*altura;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o20) }
+1250\,\pi
+\end{math}
+\newline
+
+Para limpiar la memoria del programa de todas las variables utilizadas  se puede usar el comando 
+{\bf kill(all)} (Existen otras opciones que veremos más adelante).  
+Esta es una manera de reiniciar la hoja de trabajo.
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i21)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+volumen;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o21) }
+1250\,\pi
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i22)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+kill(all);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o22) }
+done
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i23)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+volumen;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o23) }
+volumen
+\end{math}
+
+\subsection{Cálculos elementales}
+
+Se puede definir, evaluar y derivar funciones abstractas utilizando $:=$  como se muestra a continuación
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(x,y):=exp(x^2+y^2)/(x-y);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o1) }
+f\left(x , y\right):=\frac{exp{\left(y^2+x^2\right)}}{x-y}
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(2,3);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o2) }
+-e^{13}
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+%,numer;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+-442413.3920089205
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(alpha^(1/2),beta^(1/2));
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+\frac{e^{\beta+\alpha}}{\sqrt{\alpha}-\sqrt{\beta}}
+\end{math}
+\newline
+
+Derivando respecto a $x$ y $y$;
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+diff(f(x,y),x) + diff(f(x,y),y);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+\frac{2\,y\,e^{y^2+x^2}}{x-y}+\frac{2\,x\,e^{y^2+x^2}}{x-y}
+\end{math}
+\newline
+
+Aquí­ es bueno acotar que una expresión NO es una función:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(x):=3*sin(x+1)+2*sqrt(x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+f(x):=3\,\sin \left(x+1\right)+2\,\sqrt{x}
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+F:3*sin(x+1)+2*sqrt(x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+3\,\sin \left(x+1\right)+2\,\sqrt{x}
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(8); F(8);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o8) }
+3\,\sin 9+2^{\frac{5}{2}}
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+\left(3\,\sin \left(x+1\right)+2\,\sqrt{x}\right)(8)
+\end{math}
+\newline
+
+Por lo tanto, $F$ es únicamente una expresión que no puede ser evaluada como la función $f$. Pero se le puede dar la vuelta para evaluarla con {\bf ev()}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i10)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ev(F,x=8);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o10) }
+3\,\sin 9+2^{\frac{5}{2}}
+\end{math}
+\newline
+
+Consideremos los siguientes cálculos básicos:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+kill(all)$
+\end{verbatim}}
+\end{minipage}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+sigma(x):=2*x/sqrt(x^2+1);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o1) }
+\sigma\left(x\right):=\frac{2\,x}{\sqrt{x^2+1}}
+\end{math}
+\newline
+
+La primera derivada:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+diff(sigma(x),x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o2) }
+\frac{2}{\sqrt{x^2+1}}-\frac{2\,x^2}{\left(x^2+1\right)^{\frac{3}{2}}}
+\end{math}
+\newline
+
+La cuarta derivada:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+diff(sigma(x),x,4);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+\frac{90\,x}{\left(x^2+1\right)^{\frac{5}{2}}}-\frac{300\,x^3}{
+ \left(x^2+1\right)^{\frac{7}{2}}}+\frac{210\,x^5}{\left(x^2+1\right)^{\frac{9}{2}}}
+ \end{math}
+\newline
+
+Si queremos reutilizar la derivada para definir una nueva función, en este caso  la función derivada, lo podemos hacer utilizando dos apóstrofos '' (No es la doble comilla)
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+dsigma(x):='' %o2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+{\it dsigma}\left(x\right):=\frac{2}{\sqrt{x^2+1}}-\frac{2\,x^2}{
+ \left(x^2+1\right)^{\frac{3}{2}}}
+ \end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+dsigma(2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+\frac{2}{5^{\frac{3}{2}}}
+ \end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+integrate(sigma(x),x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+2\,\sqrt{x^2+1}
+ \end{math}
+\newline
+
+La misma integral, pero definida para $x$ entre $0$ y $1$.
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+integrate(sigma(x),x,0,1);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+2\,\left(\sqrt{2}-1\right)
+ \end{math}
+\newline
+
+Límites:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+limit(sigma(x),x,1/2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o8) }
+\frac{2}{\sqrt{5}} 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i9)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+limit(sigma(x),x,inf);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+2
+\end{math}
+\newline
+
+Sumatorias:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i10)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+sum(sigma(i),i,0,6);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o10) }
+\frac{12}{\sqrt{37}}+\frac{10}{\sqrt{26}}+\frac{8}{\sqrt{17}}+
+ \frac{6}{\sqrt{10}}+\frac{4}{\sqrt{5}}+\sqrt{2}
+\end{math}
+\newline
+
+Podemos calcular series de Taylor, digamos, alrededor de $x=1$ y hasta orden $4$.
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+taylor(sigma(x),x,1,4);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o11) }
+\frac{-1}{128}\,\left(5\,2^{\frac{1}{2}}\right)\,\left(x-1\right)^4
+ +\frac{1}{16}\,\left(3\,2^{\frac{1}{2}}\right)\,\left(x-1\right)^3+
+ \frac{-1}{8}\,\left(3\,2^{\frac{1}{2}}\right)\,\left(x-1\right)^2+
+ \frac{1}{2}\,2^{\frac{1}{2}}\,\left(x-1\right)+2^{\frac{1}{2}} +\cdots 
+\end{math}
+\newline 
+
+Al rededor de $x=0$ es más simple todo:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i12)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+taylor(sigma(x),x,0,6);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o12) }
+\frac{3}{4}\,x^5+\left(-1\right)\,x^3+2\,x+\cdots 
+\end{math}
+\newline 
+
+Y por supuesto, también podemos hacer una gráfica de la función. Para ello utilizaremos el comando {\bf wxplot2d} que nos generará un gráfico embebido dentro de la misma hoja de trabajo. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i13)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+wxplot2d(sigma(x),[x,-10,10]);
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+\begin{math}\displaystyle \parbox{8ex}{\color{labelcolor}(\%o13) }
+\end{math}
+\begin{figure}[h]\nonumber
+\begin{center}
+\includegraphics[height=2.6in,width=4.5in]{VOLUMEN_1/06_Apendice_A/Figuras/Figura6_2}
+\end{center}
+\end{figure}
+\newline
+
+Los cálculos anteriores se pueden repetir para que queden de una manera más elegante usando una camilla, esto hará que no se efectúe la evaluación de las operaciones. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i14)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+'diff(sigma(x),x)=diff(sigma(x),x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o14) }
+\frac{d}{d\,x}\,\left(\frac{2\,x}{\sqrt{x^2+1}}\right)=\frac{2}{
+ \sqrt{x^2+1}}-\frac{2\,x^2}{\left(x^2+1\right)^{\frac{3}{2}}}
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i15)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+'integrate(sigma(x),x,0,1)=integrate(sigma(x),x,0,1);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o15) }
+2\,\int_{0}^{1}{\frac{x}{\sqrt{x^2+1}}\;dx}=2\,\left(\sqrt{2}-1
+ \right)
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i16)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+'limit(sigma(x),x,inf)=limit(sigma(x),x,inf);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o16) }
+2\,\left(\lim_{x\rightarrow \infty }{\frac{x}{\sqrt{x^2+1}}}\right)=2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i17)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+'sum(sigma(i),i,0,6)=sum(sigma(i),i,0,6);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o17) }
+2\,\sum_{i=0}^{6}{\frac{i}{\sqrt{i^2+1}}}=\frac{12}{\sqrt{37}}+
+ \frac{10}{\sqrt{26}}+\frac{8}{\sqrt{17}}+\frac{6}{\sqrt{10}}+\frac{4}{\sqrt{5}}+\sqrt{2}
+\end{math}
+\newline
+
+Anteriormente mencionamos que uno de las ventajas de los programas de manipulación simbólica es la gran capacidad de llevar a cabo cálculos largos y tediosos, veamos entonces como se hace para demostrar que la función antes mencionada: 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i18)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+f(x,y,z):=sin(n*z*sqrt(x^2+y^2+z^2)/sqrt(y^2+z^2))/sqrt(x^2+y^2+z^2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o18) }
+f\left(x , y , z\right):={{\sin \left({{n\,z\,\sqrt{z^2+y^2+x^2}
+ }\over{\sqrt{z^2+y^2}}}\right)}\over{\sqrt{z^2+y^2+x^2}}}
+\end{math}
+\newline
+
+es solución de la ecuación diferencial 
+ \[
+ \frac{\partial^4f}{\partial x^4}+ \frac{\partial^4f}{\partial y^2x^2}+\frac{\partial^4f}{\partial z^2x^2} + n^2\left[ \frac{\partial^2f}{\partial x^2} + \frac{\partial^2f}{\partial y^2} \right]=0
+ \]
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i19)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+diff(f(x,y,z),x,4)+diff(diff(f(x,y,z),x,2),y,2)+diff(diff(f(x,y,z),x,2),z,
+
+2)+n^2*(diff(f(x,y,z),x,2)+diff(f(x,y,z),y,2));
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o19) }
+ \mbox{<< Expression too long to display! >>}
+\end{math}
+\newline
+
+Aquí {\bf Maxima} no hace un despliegue en la pantalla de los cálculos porque la expresión matemática es muy larga. Existen opciones para que muestre en pantalla los que nos interese que iremos viendo más adelante. 
+
+Necesitamos entonces decirle al programa que la expresión anterior sea simplificada, es decir, que minimice la expresión a su valor más simple. Para simplificar expresiones que contienen radicales, exponenciales o logaritmos es conveniente utilizar el comando {\bf ratsimp}. También existe la opción {\bf fullratsimp} 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i20)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ratsimp(%);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o20) }
+0
+\end{math}
+\newline
+
+En la mayoría de los casos {\bf Maxima}  no factoriza ni desarrolla automáticamente las expresiones, por lo tanto, debemos indicarle al programa que haga las respectivas simplificaciones. Veamos un ejemplo con polinomios:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i21)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+kill(all)$
+\end{verbatim}}
+\end{minipage}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+p:(x+2)*(x-1);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o1) }
+\left(x-1\right)\,\left(x+2\right)
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+q:(x-3)^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o2) }
+\left(x-3\right)^2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+p-q;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+\left(x-1\right)\,\left(x+2\right)-\left(x-3\right)^2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+expand(p-q);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+7\,x-11
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+expand(p/q);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+\frac{x^2}{x^2-6\,x+9}+\frac{x}{x^2-6\,x+9}-\frac{2}{x^2-6\,x+9}
+\end{math}
+\newline
+
+Si queremos dividir usando fracciones simples podemos hacer lo siguiente:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+partfrac(p/q,x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+\frac{7}{x-3}+\frac{10}{\left(x-3\right)^2}+1
+\end{math}
+\newline
+
+
+Las funciones {\bf logexpand } y {\bf radexpand} permiten controlar si queremos simplificar logaritmos y radicales cuando contienen productos.
+Veamos:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+log(x*y);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+\log \left(x\,y\right)
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+sqrt(x*y);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o8) }
+\sqrt{x\,y}
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i9)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+sqrt(x^2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+\left| x\right| 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i10)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+radexpand:all$ logexpand:all$
+\end{verbatim}}
+\end{minipage}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+log(x*y); sqrt(x*y); sqrt(x^2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o11) }
+\log y+\log x 
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o12) }
+\sqrt{x}\,\sqrt{y}
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o13) }
+x 
+\end{math}
+\newline
+
+Lo inverso a la expansión de expresiones es la factorización:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i14)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+factor(200);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o14) }
+2^3\,5^2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i15)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+factor(x^2+x-2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o15) }
+\left(x-1\right)\,\left(x+2\right)
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i16)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+p:x^3-1;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o16) }
+x^3-1
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i17)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+factor(%);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o17) }
+\left(x-1\right)\,\left(x^2+x+1\right)
+\end{math}
+\newline
+
+La evaluación de expresiones se realiza de la manera siguiente
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i18)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ev(p,x=8);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o18) }
+511
+\end{math}
+\newline 
+
+O también 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i19)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+p,x=%pi;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o19) }
+\pi^3-1
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i20)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ev(x+(x+y)^2-3*(x+y)^3,x+y=t);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o20) }
+x-3\,t^3+t^2
+\end{math}
+\newline
+
+Para finalizar con esta guía rápida de {\bf Maxima} veamos el uso de uno de los comandos más comunes de estos programas, y que tiene que ver con la solución de ecuaciones. 
+
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i21)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecu:3*x^2+2*x+x^3-x^2=2*x^2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o21) }
+x^3+2\,x^2+2\,x=2\,x^2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i22)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+sol:solve(ecu,x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o22) }
+\left[ x=-\sqrt{2}\,\%i , x=\sqrt{2}\,\%i , x=0 \right] 
+\end{math}
+\newline
+
+Recordemos que $\%i$ es la notación para el imaginario $i$.
+
+Si necesitamos aislar una de las soluciones usamos el comando {\bf rhs} (de right-hand side):
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i23)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+rhs(part(sol,1)); rhs(part(sol,2));
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o23) }
+-\sqrt{2}\,\%i
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o24) }
+\sqrt{2}\,\%i
+\end{math}
+\newline
+
+Para un sistema de ecuaciones, digamos, dos ecuaciones con dos incógnitas:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i25)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecu1:x^2+y^2=1;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o25) }
+y^2+x^2=1
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i26)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecu2:(x-2)^2+(y-1)^2=4;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o26) }
+\left(y-1\right)^2+\left(x-2\right)^2=4
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i27)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+solve([ecu1,ecu2],[x,y]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o27) }
+\left[ \left[ x={{4}\over{5}} , y=-{{3}\over{5}} \right]  , \left[ 
+ x=0 , y=1 \right]  \right] 
+\end{math}
+\newline
+
+Cuando el sistema no tiene solución {\bf Maxima} responde de la siguiente manera
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i28)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+solve([x+y=0,x+y=1],[x,y]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o28) }
+\left[ \,\, \right]
+\end{math}
+\newline
+
+En el caso de un sistema que tiene más incógnitas que ecuaciones el programa utiliza los símbolos $\%r_1, \%r_2...$ para indicar los parámetros arbitrarios
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i29)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+solve([x+y+z=9,x-y=2*z],[x,y,z]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o29) }
+\left[ \left[ x={{{\it \%r_1}+9}\over{2}} , y=-{{3\,{\it \%r_1}-9
+ }\over{2}} , z={\it \%r_1} \right]  \right] 
+\end{math}
+\newline
+
+En lugar de {\bf solve} se puede recurrir a un comando diferente que hace lo mismo, pero que es más eficiente desde el punto de vista de los recursos usados por el computador, el comando es {\bf linsolve} para ecuaciones lineales. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i30)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecus:[x+y+z+w=1,x-y+z-w=-2,x+y-w=0];
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o30) }
+\left[ z+y+x+w=1 , z-y+x-w=-2 , y+x-w=0 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i31)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+linsolve(ecus,[x,y,z]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o31) }
+\left[ x={{4\,w-3}\over{2}} , y=-{{2\,w-3}\over{2}} , z=1-2\,w \right]
+\end{math}
+\newline
+
+En el caso de polinómios de orden superior el resultado estará dado de forma aproximada:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i32)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ec:x^7+x^5-x^3+x-2;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o32) }
+x^7+x^5-x^3+x-2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i33)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+allroots(ec);
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+%\begin{math}\displaystyle
+%\parbox{8ex}{\color{labelcolor}(\%o26) }
+\begin{verbatim}
+[ x=0.766414088337633 %i+0.5507199727230275 ,
+  x=0.5507199727230275-0.766414088337633 %i , 
+  x=0.4922671445862202 %i - 0.9637112977011089 ,
+  x=-0.4922671445862202 %i -0.9637112977011089 , 
+  x=1.381985877916414 %i -0.08700867502191806 , 
+  x=-1.381985877916414 %i -0.08700867502191806 , 
+  x=0.9999999999999988 ]
+ \end{verbatim}
+%\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i34)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+realroots(ec);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o34) }
+\left[ x=1 \right]
+\end{math}
+\newline
+
+Otro tipo de ecuaciones a resolver son las ecuaciones diferenciales. Veamos como funciona con la ecuaciones diferenciales ordinarias
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i35)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecd:(2*x+1)*'diff(y,x)+y*(x-1)=0;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o35) }
+\left(2\,x+1\right)\,\left({{d}\over{d\,x}}\,y\right)+\left(x-1
+ \right)\,y=0
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i36)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ode2(ecd,y,x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o36) }
+y={\it \%c}\,e^{{{3\,\log \left(2\,x+1\right)}\over{4}}-{{x}\over{2}}}
+\end{math}
+\newline
+
+Por ser una ecuación diferencial de primer orden debe aparecer una constante en la solución. La constante aquí es denotada por ``${\it \%c}$".
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i37)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecd2:'diff(y,x,2)-3*'diff(y,x)+2*y=x;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o37) }
+\frac{d^2}{d\,x^2}\,y-3\,\left(\frac{d}{d\,x}\,y\right)+2\,y=x
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i38)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ode2(ecd2,y,x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o38) }
+y={\it \%k_1}\,e^{2\,x}+{\it \%k_2}\,e^{x}+\frac{2\,x+3}{4}
+\end{math}
+\newline
+
+Para el caso de que se tengan condiciones iniciales utilizamos {\bf ic2} para indicar las condiciones
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i39)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ic2(%o38,x=0,y=0,diff(y,x)=1);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o39) }
+y=\frac{5\,e^{2\,x}}{4}-2\,e^{x}+\frac{2\,x+3}{4}
+\end{math}
+\newline
+
+Y para valores de contorno {\bf bc2}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i40)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+bc2(%o38,x=0,y=0,x=1,y=0);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o40) }
+y=\frac{\left(3\,e-5\right)\,e^{2\,x}}{4\,e^2-4\,e}-\frac{\left(3\,
+ e^2-5\right)\,e^{x}}{4\,e^2-4\,e}+\frac{2\,x+3}{4}
+\end{math}
+\newline
+
+Existe el comando {\bf desolve} para resolver también ecuaciones o sistemas de ecuaciones diferenciales ordinarias lineales utilizando transformadas de Laplace. Trabaja de manera parecida a
+{\bf ode2} pero se necesita especificar la dependencia de las funciones con las variables independientes. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i41)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecd3:'diff(y(x),x,2)-y(x)=2*x;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o41) }
+\frac{d^2}{d\,x^2}\,y\left(x\right)-y\left(x\right)=2\,x
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i42)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+desolve(ecd3,[y(x)]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o42) }
+y\left(x\right)=\frac{e^{x}\,\left(\left.\frac{d}{d\,x}\,y\left(x
+ \right)\right|_{x=0}+y\left(0\right)+2\right)}{2}-\frac{e^ {- x }\,
+ \left(\left.\frac{d}{d\,x}\,y\left(x\right)\right|_{x=0}-y\left(0
+ \right)+2\right)}{2}-2\,x
+\end{math}
+\newline
+
+Si tenemos condiciones iniciales en $x=0$ entonces podemos escribir: 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i43)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+atvalue(y(x),x=0,1); atvalue(diff(y(x),x),x=0,2);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o43) }
+1
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o44) }
+2
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i45)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+desolve(ecd3,[y(x)]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o45) }
+y\left(x\right)=\frac{5\,e^{x}}{2}-\frac{3\,e^ {- x }}{2}-2\,x
+\end{math}
+\newline
+
+Si {\bf desolve} no encuentra una solución, entonces devuelve ``false". 
+
+Veamos un ejemplo de un sistema de ecuaciones diferenciales
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i46)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecd_1: 'diff(f(x),x)='diff(g(x),x)+sin(x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o46) }
+\frac{d}{d\,x}\,f\left(x\right)=\frac{d}{d\,x}\,g\left(x\right)+ \sin x
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i47)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ecd_2: 'diff(g(x),x,2)='diff(f(x),x)-cos(x);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o47) }
+\frac{d^2}{d\,x^2}\,g\left(x\right)=\frac{d}{d\,x}\,f\left(x\right) -\cos x
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i48)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+atvalue('diff(g(x),x),x=0,a)$ atvalue(f(x),x=0,b)$ atvalue(g(x),x=0,c)$
+\end{verbatim}}
+\end{minipage}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i51)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+desolve([ecd_1, ecd_2], [f(x),g(x)]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o51) }
+\left[ f\left(x\right)=a\,e^{x}+b-a , g\left(x\right)=\cos x+a\,e^{x}+c-a-1 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i52)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+kill(all)$
+\end{verbatim}}
+\end{minipage}
+
+Operaciones básicas con matrices:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A:matrix([1,2,3],[4,5,6],[7,8,9]);B:matrix([9,8,7],[6,5,4],[3,2,1]);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle \parbox{8ex}{\color{labelcolor}(\%o1) }
+\begin{pmatrix}
+1 & 2 & 3 \cr 
+4 & 5 & 6 \cr 
+7 & 8 & 9 \cr
+\end{pmatrix}
+\end{math}
+
+\begin{math}\displaystyle \parbox{8ex}{\color{labelcolor}(\%o2) }
+\begin{pmatrix}
+9 & 8 & 7 \cr 
+6 & 5 & 4 \cr 
+3 & 2 & 1 \cr
+\end{pmatrix}
+\end{math}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A+B;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+\begin{pmatrix}
+10 & 10 & 10 \cr 
+10 & 10 & 10 \cr 
+10 & 10 & 10 \cr
+\end{pmatrix}
+\end{math}
+\newline
+
+El producto ordinario de matrices:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A.B;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+\begin{pmatrix}30 & 24 & 18 \\ 84 & 69 & 54 \\ 138 & 114 & 90 \\ 
+ \end{pmatrix}
+\end{math}
+\newline
+
+El producto elemento a elemento
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A*B;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+\begin{pmatrix}9 & 16 & 21 \\ 24 & 25 & 24 \\ 21 & 16 & 9 \\ 
+ \end{pmatrix}
+\end{math}
+\newline
+
+El cociente elemento a elemento
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A/B;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+\begin{pmatrix}\frac{1}{9} & \frac{1}{4} & \frac{3}{7} \\ \frac{2}{
+ 3} & 1 & \frac{3}{2} \\ \frac{7}{3} & 4 & 9 \\ 
+ \end{pmatrix}
+\end{math}
+\newline
+
+El producto por un escalar:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+n*A;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+\begin{pmatrix}n & 2\,n & 3\,n \\ 4\,n & 5\,n & 6\,n \\ 7\,n & 8\,n & 9\,n \\ 
+ \end{pmatrix}
+\end{math}
+\newline
+
+Podemos generar matrices de muchas maneras
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a[i,j]:=i^2 + j^2$
+\end{verbatim}}
+\end{minipage}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i9) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+A:genmatrix(a,4,4);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+\begin{pmatrix}2 & 5 & 10 & 17 \\ 5 & 8 & 13 & 20 \\ 10 & 13 & 18
+  & 25 \\ 17 & 20 & 25 & 32 \\ 
+\end{pmatrix}
+\end{math}
+\newline
+
+También de manera interactiva:
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i10) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+n:3$
+\end{verbatim}}
+\end{minipage}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+M:entermatrix(n,n)$
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+\begin{verbatim}
+Is the matrix  1. Diagonal  2. Symmetric  3. Antisymmetric  4. General
+Answer 1, 2, 3 or 4 : 1;
+Row 1 Column 1: (x+y)^n$
+Row 2 Column 2: (x-y)^(n+1)$
+Row 3 Column 3: (x.y)^(n-1)$
+Matrix entered.
+\end{verbatim}
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i12) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+M;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o12) }
+\begin{pmatrix}\left(y+x\right)^3 & 0 & 0 \\ 0 & \left(x-y\right)^4
+  & 0 \\ 0 & 0 & \left(x\cdot y\right)^2 \\ 
+  \end{pmatrix}
+\end{math}
+\newline
+
+La matriz identidad de tamaño $n$ x $n$ usamos el comando 
+{\bf ident(n)}, como mostramos a continuación
+
+%%%%%% INPUT:
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i13) \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+ident(4);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o13) }
+\begin{pmatrix}1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0
+  & 0 & 0 & 1 \\ 
+\end{pmatrix}
+\end{math}
+
+
+\subsection{Bibliotecas}
+
+No todos los comandos están disponibles en la memoria cuando el programa es iniciado. Sólo los comandos estándar son cargados automáticamente. Pero podemos contar con funciones adicionales para trabajar cargando al programa los diferentes paquetes, módulos o librerías que dispone {\bf Maxima}. Por ejemplo, el paquete {\bf vect} nos permite introducir vectores y operar con ellos. 
+
+El paquete {\bf vect}  debe entonces ser previamente cargado y se hace de la manera siguiente:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+load(vect)$
+\end{verbatim}}
+\end{minipage}
+\newline
+
+Las operaciones básicas de suma, resta, multiplicación y multiplicación por escalares de vectores las podemos ver a continuación, pero primero debemos saber como introducir los vectores al programa. 
+
+Por ejemplo, para los vectores ${\bf a}=2{\bf i}+4{\bf j}+6{\bf k}$,  ${\bf b}=5{\bf i}+7{\bf j}+9{\bf k}$ y  ${\bf c}={\bf i}+3{\bf j}$, tenemos:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a:[2,4,6];
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o2) }
+\left[ 2 , 4 , 6 \right] 
+\end{math}
+
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+b:[5,7,9];
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o3) }
+\left[ 5 , 7 , 9 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+c:[1,3,0];
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o4) }
+\left[ 1 , 3 , 0 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a+b+c;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o5) }
+\left[ 8 , 14 , 15 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i6)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+3*a+5*b-c;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o6) }
+\left[ 30 , 44 , 63 \right] 
+\end{math}
+\newline
+
+Si queremos calcular el módulo de los vectores podemos hacerlo definiendo una función: la función módulo, como mostramos a continuación: 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i7)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+modulo(a):=sqrt(a.a);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o7) }
+\mbox{modulo}(a):=\sqrt{a . a} 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i8)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+modulo(a); modulo(b); modulo(c);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o8) }
+2\,\sqrt{14}
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o9) }
+\sqrt{155}
+\end{math}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%10) }
+\sqrt{10}
+\end{math}
+\newline
+
+Para el producto escalar usamos un punto
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i11)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+a.b;
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%11) }
+92
+\end{math}
+\newline
+
+Mientras que para el producto vectorial debemos usar la tilde 
+$\thicksim$   y escribir lo siguiente
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i12)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+express(a~b);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o12) }
+\left[ -6 , 12 , -6 \right] 
+\end{math}
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i13)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+express(b~a);
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o13) }
+\left[ 6 , -12 , 6 \right] 
+\end{math}
+\newline
+
+De manera que el producto triple lo podemos calcular asi:
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i14)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+c.(express(a~b));
+\end{verbatim}}
+\end{minipage}
+
+%%% OUTPUT:
+\begin{math}\displaystyle
+\parbox{8ex}{\color{labelcolor}(\%o14) }
+30
+\end{math}
+\newline
+
+
+\begin{figure}[t]\nonumber
+\begin{center}
+\includegraphics[height=3.4in,width=3.4in]{VOLUMEN_1/06_Apendice_A/Figuras/Figura6_3}
+\caption{Curvas integrales para $y'=-x+e^{-y}$}
+\label{fig14Campos}
+\end{center}
+\end{figure}
+
+Otra librería que podemos explorar es  {\bf plotdf} que nos permite realizar  gráficos del tipo $y'=f(x,y)$ y hacernos una idea de cómo es la solución de ésta ecuación diferencial. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+load(plotdf)$
+\end{verbatim}}
+\end{minipage}
+\newline
+
+La librería {\bf plotdf} nos permite estudiar los campos de direcciones y las curvas integrales a través del estudio de las pendientes. Veamos la siguiente ecuación diferencial 
+\[
+y'=-x+e^{-y}
+\]
+su solución, de manera gráfica, es decir los campos de direcciones lo podemos obtener escribiendo el siguiente comando. 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+plotdf(-x+exp(-y));
+\end{verbatim}}
+\end{minipage}
+\newline
+
+\begin{figure}[t]\nonumber
+\begin{center}
+\includegraphics[height=3.4in,width=3.4in]{VOLUMEN_1/06_Apendice_A/Figuras/Figura6_4}
+\caption{Curva integrales para $y'=-x+e^{-y}$ y que pasa por el punto $(2,3)$}
+\label{fig15Campos}
+\end{center}
+\end{figure}
+
+La gráfica que resulta puede verse en la Figura \ref{fig14Campos} y cada curva integral (curvas en rojo) se obtiene haciendo un ``click" sobre un punto de la gráfica, esto generará la curva integral que pasa por ese punto. 
+
+Por otra parte, existen varias  opciones para el comando {\bf plotdf}. Supongamos que queremos la trayectoria que pase por el punto específico $(2,3)$. Para tal fin escribimos 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+plotdf(-x+exp(-y),[trajectory_at,2,3]);
+\end{verbatim}}
+\end{minipage}
+\newline
+
+Y la gráfica obtenida puede verse en la Figura \ref{fig15Campos}. 
+
+También nos podemos encontrar con que la ecuación diferencial depende de algún parámetro, digamos $\kappa$. Por ejemplo
+\[
+y'=-x+\kappa e^{-y}
+\] 
+y nos gustaría obtener una gráfica para algún valor del parámetro en partícular, digamos $\kappa=-0.5$. Entonces podemos escribir 
+
+\begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i4)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+plotdf(-x+exp(-kappa*y),[parameters,"kappa=-0.5"]);
+\end{verbatim}}
+\end{minipage}
+\newline
+
+O, si queremos recorrer, en una misma figura, los diferentes valores del parámetro usamos la opción {\bf sliders}, como se muestra a continuación
+
+ \begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i5)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+plotdf(-x+exp(-kappa*y),[parameters,"kappa=-0.5"],[sliders,"kappa=-3:3"]);
+\end{verbatim}}
+\end{minipage}
+\newline
+
+La gráfica que se obtiene se muestra en la Figura \ref{fig16Campos},  y como se puede ver, en la parte inferior aparece un botón deslizante y el valor del parámetro $\kappa$. Al deslizar el botón, estaremos cambiando el valor del parámetro que en este caso variará entre $-3$ y $3$, podremos apreciar entonces como los campos de direcciones y las curvas integrales seleccionadas cambian.
+
+
+\begin{figure}[t]\nonumber
+\begin{center}
+\includegraphics[height=3.4in,width=3.4in]{VOLUMEN_1/06_Apendice_A/Figuras/Figura6_5}
+\caption{Curva integrales para $y'=-x+\kappa e^{-y}$ y para diferentes valores de $\kappa$.}
+\label{fig16Campos}
+\end{center}
+\end{figure}
+\newpage
+
+\subsection{Maxima en modo texto}
+
+Es posible utilizar {\bf Maxima} en un computador que funcione bajo alguno de los diferentes versiones de sistemas operativos tipo UNIX, como por ejemplo Linux, esto lo podemos hacer cuando no queremos utilizar el ambiente gráfico. Podemos recurrir al ambiente de texto escribiendo  el comando {\bf maxima} en un terminal de nuestro computador, esto hará que entremos en un ambiente de cálculo que funcionará exclusivamente en modo texto y aparecerá, luego de una bienvenida, el aviso de espera o prompt. Para finalizar una sesión en {\bf Maxima} se utiliza el comando {\bf quit()}.
+
+Esta posibilidad que ofrece el programa es muy conveniente a la hora de realizar grandes cálculos ya que podemos dejar el proceso en modo ``background'' y utilizar el computador en otra actividad.
+
+Al entrar en este modo al programa tendremos un mensaje como el que se muestra a continuación y donde aprovecharemos de hacer un par de c\'alculos a modo de ejemplo.
+
+\begin{verbatim}
+Obatala%maxima
+Maxima 5.36.1 http://maxima.sourceforge.net
+using Lisp SBCL 1.2.10
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+(%i1) integrate( tan(x), x );
+(%o1)                             log(sec(x))
+(%i2) float(sqrt(%pi)); 
+(%o2)                          1.772453850905516
+(%i3) quit();
+\end{verbatim}
+
+Sobre UNIX podemos utilizar los archivos de entradas y salidas estándar para leer e imprimir información en el terminal: $<$, $>$, $|$.
+
+\begin{verbatim}
+Obatala% maxima < archimax.txt 
+\end{verbatim}
+
+Con esta instrucción  {\bf Maxima}   ejecutará todos los comandos que se encuentran en el archivo de texto archimax.txt e irá mostrando los resultados en pantalla
+
+En la siguiente instrucción {\bf Maxima} ejecutará todos los comandos que se encuentran en el archivo de texto archimax.txt pero escribirá los resultados en el archivo de salida llamado archimax.out
+
+\begin{verbatim}
+Obatala% maxima < archimax.txt > archimax.out
+\end{verbatim}
+
+También se puede hacer que  todos los comandos del archivo sean ejecutados para luego ser enviados al terminal pero paginados. 
+
+\begin{verbatim}
+Obatala% maxima < archimax.txt | more
+\end{verbatim}
+
+{\bf Maxima}  puede ser detenido temporalmente con el comando ``$\mbox{Control Z}$''   de manera que para poner procesos en ``background'' se procede de la manera usual:
+
+\begin{verbatim}
+Obatala% maxima  < archimax.txt > archimax.out 
+^Z
+Suspended
+Obatala%> bg
+[2] maxima  < archimax.txt > archimax.out &
+
+Obatala%
+\end{verbatim}
+ 
+O si lo preferimos, y de manera equivalente, podemos escribir la instrucción pero ponemos al final $\&$ 
+
+\begin{verbatim}
+Obatala% maxima  < archimax.txt > archimax.out &
+[1] 5114
+\end{verbatim}
+
+
+
+\subsection{Invocando la ayuda}
+
+El ambiente {\bf wxMaxima} permite acceder al manual de ayuda fácilmente visible en la barra de herramientas, parte superior de la ventana. Pero también si conocemos el comando podemos escribir, por ejemplo: 
+
+ \begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i1)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+describe(diff);
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+%\begin{math}\displaystyle
+%\parbox{8ex}{\color{labelcolor}(\%o1) }
+\begin{verbatim}
+ 0: diff  (Functions and Variables for Differentiation)
+ 1: diff <1>  (Functions and Variables for Differentiation)
+ 2: diff <2>  (Functions and Variables for itensor)
+Enter space-separated numbers, `all' or `none': 
+\end{verbatim}
+%\end{math}
+
+Al seleccionar una de las opciones, por ejemplo si escribimos $1$ después de los dos puntos, aparecerá la descripción completa del comando: 
+
+%%% OUTPUT:
+%\begin{math}\displaystyle
+%\parbox{8ex}{\color{labelcolor}(\%o2) }
+\begin{verbatim}
+ -- Function: diff
+          diff (<expr>, <x_1>, <n_1>, ..., <x_m>, <n_m>)
+          diff (<expr>, <x>, <n>)
+          diff (<expr>, <x>)
+          diff (<expr>)
+     Returns the derivative or differential of <expr> with respect to
+     some or all variables in <expr>.
+     'diff (<expr>, <x>, <n>)' returns the <n>'th derivative of <expr>
+     with respect to <x>.
+     'diff (<expr>, <x_1>, <n_1>, ..., <x_m>, <n_m>)' returns the mixed
+     partial derivative of <expr> with respect to <x_1>, ..., <x_m>.  It
+     is equivalent to 'diff (... (diff (<expr>, <x_m>, <n_m>) ...),
+     <x_1>, <n_1>)'.
+     'diff (<expr>, <x>)' returns the first derivative of <expr> with
+     respect to the variable <x>.
+     'diff (<expr>)' returns the total differential of <expr>, that is,
+     the sum of the derivatives of <expr> with respect to each its
+     variables times the differential 'del' of each variable.  No
+     further simplification of 'del' is offered.
+     The noun form of 'diff' is required in some contexts, such as
+     stating a differential equation.  In these cases, 'diff' may be
+     quoted (as ''diff') to yield the noun form instead of carrying out
+     the differentiation.....
+     
+     There are also some inexact matches for `diff'.
+     Try `?? diff' to see them.
+\end{verbatim}
+%\end{math}
+
+También podemos utilizar:
+
+ \begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i2)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+apropos("diff");
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+%\begin{math}\displaystyle
+%\parbox{8ex}{\color{labelcolor}(\%o1) }
+\begin{verbatim}
+[covdiff,diff,maxtaydiff,pdiff_diff_var_names,pdiff_prime_limit...]
+\end{verbatim}
+%\end{math}
+
+O pedirle al programa algunos ejemplos 
+
+ \begin{minipage}[t]{8ex}
+{\color{red}\bf \begin{verbatim} (%i3)  \end{verbatim}}
+\end{minipage}
+\begin{minipage}[t]{\textwidth}{\color{blue}
+\begin{verbatim}
+example(diff);
+\end{verbatim}}
+\end{minipage}
+%%% OUTPUT:
+%\begin{math}\displaystyle
+%\parbox{8ex}{\color{labelcolor}(\%o1) }
+\begin{verbatim}
+(%i4) kill(f,g,h,x,y)
+(%o4) done
+(%i5) diff(sin(x)+x^3+2*x^2,x)
+(%o5) cos(x)+3*x^2+4*x
+(%i6) diff(sin(x)*cos(x),x)
+(%o6) cos(x)^2-sin(x)^2
+(%i7) diff(sin(x)*cos(x),x,2)
+(%o7) -4*cos(x)*sin(x)
+   .
+   .
+   .
+\end{verbatim}
+%\end{math}
+
+Las ayudas completas de {\bf Maxima} se pueden consultar en:
+\url{http://maxima.sourceforge.net/es/}
+
+\subsection{{\color{OliveGreen}Ejercicios}}
+
+\begin{enumerate}
+
+\item Calcule:
+\begin{enumerate}
+\item los 70 primeros decimales del número $e$
+\item el arco coseno hiperbólico de $1$
+\item la expansión de $\sin(2 \arctan(x))$
+\end{enumerate}
+
+\item Para la siguiente función
+\[
+f(x) = \frac{(x+1)^3}{\sqrt{x^2-1}}
+\]
+Calcule
+\begin{enumerate}
+\item $\frac{\partial f(x)}{\partial x}$, $\frac{\partial f(x)}{\partial x^2}$
+\item
+\[
+\int f(x) dx \,, \qquad   \int_{2}^{4} f(x) dx
+\]
+\item 
+\[
+\lim_{x \rightarrow \infty} f(x)\,,  \qquad \lim_{x \rightarrow -\infty} f(x)\,,  \qquad
+\lim_{x \rightarrow 0} f(x)
+\]
+\item Haga un gráfico de $f(x)$ para valores de $x\in [-5,5]$.
+\end{enumerate}
+
+\item Encuentre las raíces de
+\[
+p= x^7 +x^5+2x+x
+\]
+
+\item Resuelva la siguiente ecuación diferencial 
+\[
+x \frac{d y(x)}{d x} = y(x) \ln(x y(x)) - y(x);
+\]
+y haga una gráfica del campo de direcciones que muestre algunas
+curvas integrales.
+
+\item Resuelva la siguiente ecuación diferencial 
+\[
+\frac{d^2 y(t)}{d^2 t}-\left(1-y(t)^2\right) \frac{d y(t)}{d t}+y(t) = 0 \,, \quad 
+\mbox{con: } \,\, y(0)=0 \,, \,\, \frac{d y(t)}{d t}= -0.1
+\]
+
+\item Realice los ejercicios de la sección \ref{Algebravectorialycoordenadas} con la ayuda de la librería 
+{\bf vect} de  {\bf Maxima}.
+
+\item En un archivo de texto escriba las siguientes instrucciones que tienen que ver con operaciones de números complejos:
+\begin{verbatim}
+z_1=1+2%i;
+z_2=3+4%i;
+z_1+z_2;
+z_1*z_2;
+expand(%);
+z_1/z_2;
+rectform(%);
+polarform(%);
+\end{verbatim}
+guarde el archivo con el nombre pruebamax.txt y en un terminal de su computador, y en el mismo directorio donde está el archivo escriba:
+\begin{verbatim}
+localhost%  maxima < pruebamax.txt > pruebamax.out &
+\end{verbatim}
+y verifique que en el archivo pruebamax.out se haya realizado los cálculos.
+
+\end{enumerate}
+
+
+
+
+
